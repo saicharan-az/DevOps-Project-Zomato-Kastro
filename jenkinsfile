@@ -38,12 +38,15 @@ pipeline {
                 sh "npm install"
             }
         }
+/*
         stage('OWASP FS SCAN') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'DP-Check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
     }
 }
+
+*/
         stage ("Trivy File Scan") {
             steps {
                 sh "trivy fs . > trivy.txt"
@@ -58,8 +61,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag zomato kastrov/zomato:latest "
-                        sh "docker push kastrov/zomato:latest "
+                        sh "docker tag zomato saidocker4748/zomato:latest "
+                        sh "docker push saidocker4748/zomato:latest "
                     }
                 }
             }
@@ -68,16 +71,16 @@ pipeline {
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview kastrov/zomato:latest'
-                       sh 'docker-scout cves kastrov/zomato:latest'
-                       sh 'docker-scout recommendations kastrov/zomato:latest'
+                       sh 'docker-scout quickview saidocker4748/zomato:latest'
+                       sh 'docker-scout cves saidocker4748/zomato:latest'
+                       sh 'docker-scout recommendations saidocker4748/zomato:latest'
                    }
                 }
             }
         }
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 kastrov/zomato:latest'
+                sh 'docker run -d --name zomato -p 3000:3000 saidocker4748/zomato:latest'
             }
         }
     }
@@ -100,7 +103,7 @@ pipeline {
                 </body>
                 </html>
             """,
-            to: 'kastrokiran@gmail.com',
+            to: 'saicharan.p4748@gmail.com',
             mimeType: 'text/html',
             attachmentsPattern: 'trivy.txt'
         }
