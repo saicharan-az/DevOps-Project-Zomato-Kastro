@@ -51,7 +51,7 @@ pipeline {
         }
         stage ("Build Docker Image") {
             steps {
-                sh "sudo docker build -t zomato ."
+                sh "docker build -t zomato ."
             }
         }
         stage ("Tag & Push to DockerHub") {
