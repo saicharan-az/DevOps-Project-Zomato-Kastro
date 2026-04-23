@@ -77,7 +77,7 @@ pipeline {
         }
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 saidocker4748/zomato:latest'
+                sh 'docker run -d --name zomato -p 4000:4000 saidocker4748/zomato:latest'
             }
         }
     }
